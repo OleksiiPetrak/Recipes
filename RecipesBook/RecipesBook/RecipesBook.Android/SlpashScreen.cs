@@ -11,10 +11,16 @@ using Android.Views;
 using Android.Widget;
 using MvvmCross.Forms.Platforms.Android.Views;
 using RecipesBook.UI;
+using Android.Content.PM;
 
 namespace RecipesBook.Droid
 {
-    [Activity(Label = "SlpashScreen")]
+    [Activity(
+        Label = "SlpashScreen", 
+        Theme = "@style/MainTheme.Splash", 
+        MainLauncher = true,
+        ScreenOrientation = ScreenOrientation.Portrait,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class SlpashScreen : MvxFormsSplashScreenActivity<Setup, Core.App, App>
     {
         public SlpashScreen(): base(Resource.Layout.SplashScreen)

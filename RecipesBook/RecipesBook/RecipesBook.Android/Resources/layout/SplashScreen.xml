@@ -3,4 +3,4 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/abc_ic_star_black_36dp" />
+    android:background="@drawable/screen" />
