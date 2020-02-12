@@ -12,6 +12,7 @@ using Android.Widget;
 using MvvmCross.Forms.Platforms.Android.Views;
 using RecipesBook.UI;
 using Android.Content.PM;
+using System.Threading.Tasks;
 
 namespace RecipesBook.Droid
 {
@@ -25,6 +26,12 @@ namespace RecipesBook.Droid
     {
         public SlpashScreen(): base(Resource.Layout.SplashScreen)
         {
+        }
+
+        protected override Task RunAppStartAsync(Bundle bundle)
+        {
+            StartActivity(typeof(RootActivity));
+            return Task.CompletedTask;
         }
     }
 }
