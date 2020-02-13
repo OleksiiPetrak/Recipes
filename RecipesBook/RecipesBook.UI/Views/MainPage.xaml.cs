@@ -19,5 +19,12 @@ namespace RecipesBook.UI.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            ViewModel.ShowRecipesViewModel.Execute(null);
+
+            base.OnAppearing();
+        }
     }
 }

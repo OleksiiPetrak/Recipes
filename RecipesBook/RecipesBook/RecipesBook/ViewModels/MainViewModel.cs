@@ -1,4 +1,5 @@
-﻿using MvvmCross.Navigation;
+﻿using MvvmCross.Commands;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,13 @@ namespace RecipesBook.Core.ViewModels
     {
         private readonly IMvxNavigationService _navigationService;
 
+        public IMvxAsyncCommand ShowRecipesViewModel { get; private set; }
 
         public MainViewModel(IMvxNavigationService navigationService)
         {
             _navigationService = navigationService;
+
+            ShowRecipesViewModel = new MvxAsyncCommand(async () => await _navigationService.Navigate<RecipesViewModel>());
         }
     }
 }
