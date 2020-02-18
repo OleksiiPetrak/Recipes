@@ -14,7 +14,7 @@ using MvvmCross.Forms.Platforms.Android.Views;
 
 namespace RecipesBook.Droid
 {
-    [Activity(Label = "RootActivity",
+    [Activity(Label = "Recipes Book",
         Icon= "@mipmap/icon",
         Theme = "@style/MainTheme",
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,

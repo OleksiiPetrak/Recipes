@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace RecipesBook.Droid
 {
     [Activity(
-        Label = "SlpashScreen", 
+        Label = "Recipes Book", 
         Theme = "@style/MainTheme.Splash", 
         MainLauncher = true,
         ScreenOrientation = ScreenOrientation.Portrait,

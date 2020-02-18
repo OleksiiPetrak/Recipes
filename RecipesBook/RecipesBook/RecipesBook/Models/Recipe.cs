@@ -12,8 +12,8 @@ namespace RecipesBook.Core.Models
         public int Id { get; set; }
 
         [MaxLength(250), Unique]
-        public string Name { get; set; }
-        public List<Uri> Images { get; set; }
+        public string Title { get; set; }
+        public string Image { get; set; }
         public List<Ingredient> MyProperty { get; set; }
         public string CookingSteps { get; set; }
     }

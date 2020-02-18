@@ -1,4 +1,5 @@
-﻿using RecipesBook.Core.Interfaces;
+﻿using RecipesBook.Common.Interfaces;
+using RecipesBook.Core.Interfaces;
 using RecipesBook.Core.Models;
 using SQLite;
 
@@ -10,8 +11,9 @@ namespace RecipesBook.Core.Repositories
         private IRepositoryAsync<Ingredient> _ingredients;
         private IRepositoryAsync<Recipe> _recipes;
 
-        public UnitOfWork(string dbPath)
+        public UnitOfWork(IFileAccessHelper fileAccessHelper)
         {
+            string dbPath = fileAccessHelper.GetLocalFilePath("recipes.db3");
             _connection = new SQLiteAsyncConnection(dbPath);
         }
 

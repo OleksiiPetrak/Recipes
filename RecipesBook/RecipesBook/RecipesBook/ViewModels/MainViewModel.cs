@@ -3,11 +3,12 @@ using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace RecipesBook.Core.ViewModels
 {
-    public class MainViewModel:MvxViewModel
+    public class MainViewModel:BaseViewModel
     {
         private readonly IMvxNavigationService _navigationService;
 

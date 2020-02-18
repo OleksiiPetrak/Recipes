@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Diagnostics;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace RecipesBook.UI

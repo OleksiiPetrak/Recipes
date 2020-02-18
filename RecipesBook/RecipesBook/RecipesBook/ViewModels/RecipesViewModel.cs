@@ -10,25 +10,37 @@ using System.Threading.Tasks;
 
 namespace RecipesBook.Core.ViewModels
 {
-    public class RecipesViewModel: MvxViewModel
+    public class RecipesViewModel: BaseViewModel
     {
+        private string _nextPage;
         private readonly IMvxNavigationService _navigationService;
         private readonly IRecipesService _recipesService;
 
         public RecipesViewModel(IRecipesService recipesService,
             IMvxNavigationService navigationService)
         {
-            _recipesService = recipesService;
-            _navigationService = navigationService;
+             _recipesService = recipesService;
+             _navigationService = navigationService;
 
-            Recipes = new MvxObservableCollection<Recipe>();
+             Recipes = new MvxObservableCollection<Recipe>();
+
+            RecipeSelectedCommand = new MvxAsyncCommand<Recipe>(RecipeSelected);
+            FetchRecipesCommand = new MvxCommand(
+                () =>
+                {
+                    if (!string.IsNullOrEmpty(_nextPage))
+                    {
+                        FetchRecipesTask = MvxNotifyTask.Create(LoadRecipes);
+                        RaisePropertyChanged(() => FetchRecipesTask);
+                    }
+                });
+            RefreshRecipesCommand = new MvxCommand(RefreshRecipes);
         }
 
         public override Task Initialize()
         {
-
-
-            return base.Initialize();
+            LoadRecipesTask = MvxNotifyTask.Create(LoadRecipes);
+             return base.Initialize();
         }
 
         public MvxNotifyTask LoadRecipesTask { get; private set; }
@@ -54,9 +66,23 @@ namespace RecipesBook.Core.ViewModels
         public IMvxCommand FetchRecipesCommand { get; private set; }
         public IMvxCommand RefreshRecipesCommand { get; private set; }
 
+        private async Task LoadRecipes()
+        {
+            var result = await _recipesService.GetRecipes();
+        }
+
         private async Task RecipeSelected(Recipe selectedRecipe)
         {
-            var result = await _navigationService.Navigate<RecipeViewModel, Recipe>();
+            await _navigationService.Navigate<RecipeViewModel, Recipe>(selectedRecipe);
+        }
+
+        private void RefreshRecipes()
+        {
+            _nextPage = null;
+
+            LoadRecipesTask = MvxNotifyTask.Create(LoadRecipes);
+
+            RaisePropertyChanged(() => LoadRecipesTask);
         }
     }
 }

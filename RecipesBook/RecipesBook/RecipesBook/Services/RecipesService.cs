@@ -9,15 +9,18 @@ namespace RecipesBook.Core.Services
 {
     public class RecipesService : IRecipesService
     {
-        private readonly IRepositoryAsync<Recipe> _recipeRepository;
-        public RecipesService(IRepositoryAsync<Recipe> recipeRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public RecipesService(IUnitOfWork unitOfWork)
         {
-            _recipeRepository = recipeRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<Recipe>> GetRecipes()
+        public async Task<IEnumerable<Recipe>> GetRecipes()
         {
-            throw new NotImplementedException();
+            var resipes = await _unitOfWork.Recipes.GetAllAsync();
+
+            return resipes;
         }
     }
 }
