@@ -20,6 +20,7 @@ namespace RecipesBook.Droid
         Label = "Recipes Book", 
         Theme = "@style/MainTheme.Splash", 
         MainLauncher = true,
+        NoHistory =true,
         ScreenOrientation = ScreenOrientation.Portrait,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class SlpashScreen : MvxFormsSplashScreenActivity<Setup, Core.App, App>

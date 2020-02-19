@@ -9,8 +9,18 @@
              xmlns:behavior="clr-namespace:RecipesBook.UI.Behaviors"
              mvx:Bi.nd="Title [TargetRecipes]">
     <ContentPage.Content>
-        <Grid>
-            <views:MvxListView
+            <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+                <views:MvxListView
                 HorizontalOptions="FillAndExpand" 
                 VerticalOptions="FillAndExpand"
                 SelectionMode="None"
@@ -21,19 +31,28 @@
                 BackgroundColor="Transparent"
                 RowHeight="{x:OnPlatform Android=55, iOS=55, UWP=40}"
                 SeparatorVisibility="None">
-                <!--<ListView.Behaviors>
+                    <!--<ListView.Behaviors>
                     <behavior:InfiniteScroll LoadMoreCommand="{Binding FetchRecipesCommand}" />
                 </ListView.Behaviors>-->
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ImageCell ImageSource="{mvx:MvxBind Image}" 
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell ImageSource="{mvx:MvxBind Image}" 
                                    Text="{mvx:MvxBind Title}"
                                    TextColor="Blue"
                                    Detail="{mvx:MvxBind CookingSteps}"
                                    DetailColor="Green"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </views:MvxListView>
-        </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </views:MvxListView>
+                
+                <Button
+                x:Name="Create"
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="0,0,15,20"
+                Image="@drawable/round_button"
+                TextColor="White"
+                Text="+"/>
+            </Grid>
     </ContentPage.Content>
 </views:MvxContentPage>

@@ -16,11 +16,18 @@ namespace RecipesBook.Core.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task AddNewRecipes(Recipe recipe)
+        {
+            await _unitOfWork.Recipes.UpsertOneAsync(recipe);
+        }
+
         public async Task<IEnumerable<Recipe>> GetRecipes()
         {
             var resipes = await _unitOfWork.Recipes.GetAllAsync();
 
             return resipes;
         }
+
+        
     }
 }
