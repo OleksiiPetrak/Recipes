@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:RecipeViewModel"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RecipesBook.UI.Views.CreateRecipePage"
+             xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+             xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
+             xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core"
+             xmlns:behavior="clr-namespace:RecipesBook.UI.Behaviors">
+    <ContentPage.Content>
+        <Grid>
+            <Label Text="Write the steps for cooking" />
+            <Entry x:Name="RecipeDetails"
+                    mvx:Bi.nd ="Text CookingSteps"/>
+        </Grid>
+    </ContentPage.Content>
+</views:MvxContentPage>

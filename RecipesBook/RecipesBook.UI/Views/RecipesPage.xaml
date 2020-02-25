@@ -6,8 +6,7 @@
              xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
              xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
              xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core"
-             xmlns:behavior="clr-namespace:RecipesBook.UI.Behaviors"
-             mvx:Bi.nd="Title [TargetRecipes]">
+             xmlns:behavior="clr-namespace:RecipesBook.UI.Behaviors">
     <ContentPage.Content>
             <Grid>
             <Grid.RowDefinitions>
@@ -39,20 +38,22 @@
                             <ImageCell ImageSource="{mvx:MvxBind Image}" 
                                    Text="{mvx:MvxBind Title}"
                                    TextColor="Blue"
-                                   Detail="{mvx:MvxBind CookingSteps}"
+                                   Detail="{mvx:MvxBind DetailsInfo}"
                                    DetailColor="Green"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </views:MvxListView>
                 
                 <Button
-                x:Name="Create"
+                x:Name="ToCreate"
+                mvx:Bi.nd="Clicked AddRecipe"
                 Grid.Row="2"
                 Grid.Column="2"
                 Margin="0,0,15,20"
                 Image="@drawable/round_button"
                 TextColor="White"
-                Text="+"/>
+                Text="+"
+                Command="{mvx:MvxBind NavigateToCreatePageCommand}"/>
             </Grid>
     </ContentPage.Content>
 </views:MvxContentPage>

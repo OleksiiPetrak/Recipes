@@ -35,6 +35,7 @@ namespace RecipesBook.Core.ViewModels
                     }
                 });
             RefreshRecipesCommand = new MvxCommand(RefreshRecipes);
+            NavigateToCreatePageCommand = new MvxAsyncCommand(NavigateToCreatePage);
         }
 
         public override Task Initialize()
@@ -65,6 +66,7 @@ namespace RecipesBook.Core.ViewModels
         public IMvxCommand<Recipe> RecipeSelectedCommand { get; private set; }
         public IMvxCommand FetchRecipesCommand { get; private set; }
         public IMvxCommand RefreshRecipesCommand { get; private set; }
+        public IMvxCommand NavigateToCreatePageCommand { get; private set; }
 
         private async Task LoadRecipes()
         {
@@ -83,6 +85,11 @@ namespace RecipesBook.Core.ViewModels
             LoadRecipesTask = MvxNotifyTask.Create(LoadRecipes);
 
             RaisePropertyChanged(() => LoadRecipesTask);
+        }
+
+        private async Task NavigateToCreatePage()
+        {
+            await _navigationService.Navigate<RecipeViewModel>();
         }
     }
 }

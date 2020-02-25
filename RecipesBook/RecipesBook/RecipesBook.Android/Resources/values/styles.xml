@@ -25,7 +25,6 @@
   </style>
 
   <style name="MainTheme.Splash" parent="MainTheme.Base">
-    <item name="android:windowBackground">@drawable/screen</item>
     <item name="android:statusBarColor">#000000</item>
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowFullscreen">true</item>

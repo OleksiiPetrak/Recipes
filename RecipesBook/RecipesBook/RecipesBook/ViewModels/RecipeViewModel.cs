@@ -17,6 +17,7 @@ namespace RecipesBook.Core.ViewModels
             _navigationService = navigationService;
         }
 
+        private string _cookingStreps;
         private Recipe _recipe;
         public Recipe Recipe
         {
@@ -29,6 +30,20 @@ namespace RecipesBook.Core.ViewModels
             {
                 _recipe = value;
                 RaisePropertyChanged(() => Recipe);
+            }
+        }
+
+        public string CookingSteps
+        {
+            get
+            {
+                return _cookingStreps;
+            }
+
+            set
+            {
+                _cookingStreps = value;
+                RaisePropertyChanged(() => CookingSteps);
             }
         }
 
