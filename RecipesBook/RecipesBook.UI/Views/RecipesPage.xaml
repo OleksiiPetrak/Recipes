@@ -53,6 +53,7 @@
                 Image="@drawable/round_button"
                 TextColor="White"
                 Text="+"
+                CornerRadius="60"
                 Command="{mvx:MvxBind NavigateToCreatePageCommand}"/>
             </Grid>
     </ContentPage.Content>
