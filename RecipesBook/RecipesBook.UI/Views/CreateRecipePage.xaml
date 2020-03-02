@@ -3,10 +3,15 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesBook.UI.Views.CreateRecipePage"
+             xmlns:local="clr-namespace:RecipesBook.Core.Converters"         
              xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
              xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
-             xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core"
-             xmlns:behavior="clr-namespace:RecipesBook.UI.Behaviors">
+             xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:IntEnumConverter x:Key="IntEnum" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <Image x:Name="RecipePhoto"     
@@ -21,6 +26,11 @@
                     Text="{mvx:MvxBind DownloadPhotoButtonText}"
                     mvx:Bi.nd="Clicked PickPhotoCommand"
                     Command="{mvx:MvxBind PickPhotoCommand}" />
+            <Picker
+                x:Name="CategoryPicker"
+                Title="Select category"
+                ItemsSource="{mvx:MvxBind Categories}"
+                SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
             <Label Text="Write the ingredients" 
                    HeightRequest="20"/>
             <Entry x:Name="Ingredients"

@@ -14,7 +14,9 @@ namespace RecipesBook.Core.Models
         [MaxLength(250), Unique]
         public string Title { get; set; }
         public string Image { get; set; }
-        public List<Ingredient> MyProperty { get; set; }
+        public int CookingTime { get; set; }
+        public Common.Enums.Category MyProperty { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
         public string CookingSteps { get; set; }
     }
 }

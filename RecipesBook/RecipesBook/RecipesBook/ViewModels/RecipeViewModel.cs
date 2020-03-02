@@ -4,6 +4,7 @@ using MvvmCross.ViewModels;
 using Plugin.Media;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using RecipesBook.Common.Enums;
 using RecipesBook.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,15 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Linq;
+using RecipesBook.Common.Extensions;
 
 namespace RecipesBook.Core.ViewModels
 {
     public class RecipeViewModel : BaseViewModel<Recipe, Recipe>
     {
         private readonly IMvxNavigationService _navigationService;
+        private Category _categories;
 
         public RecipeViewModel(IMvxNavigationService navigationService)
         {
@@ -28,7 +32,16 @@ namespace RecipesBook.Core.ViewModels
         private string _cookingStreps;
         private ImageSource _recipeImageSource;
         private string _downloadPhotoButtonText;
+        private string _selectedCategory;
         private Recipe _recipe;
+
+        public List<string> Categories
+        {
+            get
+            {
+                return Enum.GetNames(typeof(Category)).Select(c => c.SplitCamelCase()).ToList();
+            }
+        }
 
         public Recipe Recipe
         {
@@ -55,6 +68,19 @@ namespace RecipesBook.Core.ViewModels
             {
                 _recipeImageSource = value;
                 RaisePropertyChanged(() => RecipeImageSource);
+            }
+        }
+
+        public string SelectedCategory 
+        {
+            get
+            {
+                return _selectedCategory;
+            }
+            set
+            {
+                _selectedCategory = value;
+                RaisePropertyChanged(() => SelectedCategory);
             }
         }
 
@@ -98,7 +124,7 @@ namespace RecipesBook.Core.ViewModels
 
             if (!CrossMedia.Current.IsPickPhotoSupported)
             {
-                _downloadPhotoButtonText = "Photos Not Supported";
+                _downloadPhotoButtonText = "Photos Not Supported(";
                 //await DisplayAlert("Photos Not Supported", ":( Permission not granted to photos.", "OK");
                 return;
             }
@@ -121,9 +147,7 @@ namespace RecipesBook.Core.ViewModels
                 throw;
                 // Xamarin.Insights.Report(ex);
                 // await DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured it in Xamarin Insights! Thanks.", "OK");
-            }
-
-            
+            }   
         }
 
         private async Task CheckPermisionsAsync()
