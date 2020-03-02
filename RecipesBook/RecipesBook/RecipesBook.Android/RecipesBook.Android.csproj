@@ -60,6 +60,9 @@
     <PackageReference Include="MvvmCross.Forms">
       <Version>6.2.3</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugin.Media">
+      <Version>4.0.1.5</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Animated.Vector.Drawable">
       <Version>28.0.0.3</Version>
     </PackageReference>
@@ -188,7 +191,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\file_paths.xml" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\RecipesBook.UI\RecipesBook.UI.csproj">
       <Project>{f72364c9-373b-46c3-a67b-0ffa15e83619}</Project>

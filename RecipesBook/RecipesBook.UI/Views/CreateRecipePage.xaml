@@ -8,10 +8,27 @@
              xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core"
              xmlns:behavior="clr-namespace:RecipesBook.UI.Behaviors">
     <ContentPage.Content>
-        <Grid>
-            <Label Text="Write the steps for cooking" />
+        <StackLayout>
+            <Image x:Name="RecipePhoto"     
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   Aspect="AspectFit"
+                   Source="{mvx:MvxBind RecipeImageSource, Mode=OneWay}"/>
+            <Button x:Name="PickPhoto" 
+                    CornerRadius="20"
+                    HeightRequest="40"
+                    BackgroundColor="SaddleBrown"
+                    Text="{mvx:MvxBind DownloadPhotoButtonText}"
+                    mvx:Bi.nd="Clicked PickPhotoCommand"
+                    Command="{mvx:MvxBind PickPhotoCommand}" />
+            <Label Text="Write the ingredients" 
+                   HeightRequest="20"/>
+            <Entry x:Name="Ingredients"
+                    mvx:Bi.nd ="Text Ingredients"/>
+            <Label Text="Write the steps for cooking" 
+                   HeightRequest="20"/>
             <Entry x:Name="RecipeDetails"
                     mvx:Bi.nd ="Text CookingSteps"/>
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </views:MvxContentPage>

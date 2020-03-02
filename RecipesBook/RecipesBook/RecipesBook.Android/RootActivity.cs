@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MvvmCross.Forms.Platforms.Android.Views;
+using Plugin.CurrentActivity;
 
 namespace RecipesBook.Droid
 {
@@ -28,12 +29,18 @@ namespace RecipesBook.Droid
 
             base.OnCreate(savedInstanceState);
 
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
             // Create your application here
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }    
 }
