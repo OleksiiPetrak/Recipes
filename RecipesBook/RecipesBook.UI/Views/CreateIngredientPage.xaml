@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<views:MvxContentPage x:TypeArguments="viewModels:IngredientViewModel"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RecipesBook.UI.Views.CreateIngredientPage"
+             xmlns:local="clr-namespace:RecipesBook.Core.Converters"         
+             xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+             xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
+             xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:IntEnumConverter x:Key="IntEnum" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Write the name of ingredient" 
+                   HeightRequest="20"/>
+            <Entry x:Name="IngredientNameEntry"
+                    mvx:Bi.nd ="Text IngredientName"/>
+            <Label Text="Write amount of ingredient" 
+                   HeightRequest="20"/>
+            <Entry x:Name="IngredientAmountEntry"
+                    mvx:Bi.nd ="Text IngredientAmount"/>
+            <Label Text="Select measure unit"
+                   HeightRequest="20"/>
+            <Picker
+                x:Name="UnitPicker"
+                Title="Select measure unit"
+                ItemsSource="{mvx:MvxBind Units}"
+                SelectedItem="{mvx:MvxBind SelectedUnit, Converter=IntEnum}"/>
+
+            <Button x:Name="SaveIngredientButton" 
+                    CornerRadius="20"
+                    HeightRequest="40"
+                    BackgroundColor="SaddleBrown"
+                    Text="{mvx:MvxBind SaveIngredientButtonText}"
+                    mvx:Bi.nd="Clicked SaveIngredientCommand"
+                    Command="{mvx:MvxBind SaveIngredientCommand}" />
+        </StackLayout>
+    </ContentPage.Content>
+</views:MvxContentPage>

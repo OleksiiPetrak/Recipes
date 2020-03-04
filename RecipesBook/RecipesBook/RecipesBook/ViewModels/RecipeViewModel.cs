@@ -27,6 +27,7 @@ namespace RecipesBook.Core.ViewModels
             _navigationService = navigationService;
             DownloadPhotoButtonText = "Download photo";
             PickPhotoCommand = new MvxAsyncCommand(PickPhoto);
+            AddIngredientCommand = new MvxAsyncCommand(AddIngredient);
         }
 
         private string _cookingStreps;
@@ -112,6 +113,7 @@ namespace RecipesBook.Core.ViewModels
         }
 
         public IMvxCommand PickPhotoCommand { get; private set; }
+        public IMvxCommand AddIngredientCommand { get; private set; }
 
         public override void Prepare(Recipe parameter)
         {
@@ -148,6 +150,11 @@ namespace RecipesBook.Core.ViewModels
                 // Xamarin.Insights.Report(ex);
                 // await DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured it in Xamarin Insights! Thanks.", "OK");
             }   
+        }
+
+        private async Task AddIngredient()
+        {
+            await _navigationService.Navigate<IngredientViewModel>();
         }
 
         private async Task CheckPermisionsAsync()

@@ -31,10 +31,13 @@
                 Title="Select category"
                 ItemsSource="{mvx:MvxBind Categories}"
                 SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
-            <Label Text="Write the ingredients" 
-                   HeightRequest="20"/>
-            <Entry x:Name="Ingredients"
-                    mvx:Bi.nd ="Text Ingredients"/>
+            <Button x:Name="AddIngredientButton" 
+                    CornerRadius="20"
+                    HeightRequest="40"
+                    BackgroundColor="SaddleBrown"
+                    Text="Add new ingredient"
+                    mvx:Bi.nd="Clicked AddIngredientCommand"
+                    Command="{mvx:MvxBind AddIngredientCommand}" />
             <Label Text="Write the steps for cooking" 
                    HeightRequest="20"/>
             <Entry x:Name="RecipeDetails"

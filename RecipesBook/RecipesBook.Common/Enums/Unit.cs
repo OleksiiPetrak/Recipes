@@ -8,6 +8,8 @@
         l,
         g,
         kg,
-        glass
+        Glass,
+        TableSpoon,
+        TeaSpoon
     }
 }
