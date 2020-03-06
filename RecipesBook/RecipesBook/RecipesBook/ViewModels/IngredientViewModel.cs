@@ -17,16 +17,22 @@ using RecipesBook.Common.Extensions;
 
 namespace RecipesBook.Core.ViewModels
 {
-    public class IngredientViewModel : BaseViewModel
+    public class IngredientViewModel : BaseViewModel<List<Ingredient>,List<Ingredient>>
     {
         private readonly IMvxNavigationService _navigationService;
         private Unit _units;
+        private List<Ingredient> _ingredients;
 
         public IngredientViewModel(IMvxNavigationService navigationService)
         {
             _navigationService = navigationService;
             SaveIngredientButtonText = "Save ingredient";
             SaveIngredientCommand = new MvxAsyncCommand(SaveIngredient);
+        }
+
+        public override void Prepare(List<Ingredient> parameter)
+        {
+            _ingredients = parameter;
         }
 
         private string _ingredientName;
@@ -98,7 +104,29 @@ namespace RecipesBook.Core.ViewModels
 
         private async Task SaveIngredient()
         {
-             await _navigationService.Navigate<RecipesViewModel>();
+            if (IngredientAmount >= 0 && IngredientName != null && SelectedUnit != null)
+            {
+                var ingredient = new Ingredient
+                {
+                    IngredientName = IngredientName,
+                    Count = IngredientAmount,
+                    IngredientUnit = ConvertUnitInEnum(SelectedUnit)
+                };
+
+                _ingredients.Add(ingredient);
+
+                await _navigationService.Close(this, _ingredients).ConfigureAwait(false);
+            }
+            else
+            {
+                SaveIngredientButtonText = "Input correct data";
+            }
+        }
+
+        private Unit ConvertUnitInEnum(string name)
+        {
+            var unit = (Unit) Enum.Parse(typeof(Unit), name);
+            return unit;
         }
     }
 }

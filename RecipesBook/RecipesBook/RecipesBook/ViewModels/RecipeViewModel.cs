@@ -5,29 +5,29 @@ using Plugin.Media;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using RecipesBook.Common.Enums;
+using RecipesBook.Common.Extensions;
 using RecipesBook.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using System.Linq;
-using RecipesBook.Common.Extensions;
 
 namespace RecipesBook.Core.ViewModels
 {
     public class RecipeViewModel : BaseViewModel<Recipe, Recipe>
     {
         private readonly IMvxNavigationService _navigationService;
-        private Category _categories;
-
+        
         public RecipeViewModel(IMvxNavigationService navigationService)
         {
             _navigationService = navigationService;
+            InitializeIngredientCollections();                     
             DownloadPhotoButtonText = "Download photo";
             PickPhotoCommand = new MvxAsyncCommand(PickPhoto);
             AddIngredientCommand = new MvxAsyncCommand(AddIngredient);
+            RefreshIngredientsCommand = new MvxCommand(RefreshIngredients);
         }
 
         private string _cookingStreps;
@@ -35,12 +35,27 @@ namespace RecipesBook.Core.ViewModels
         private string _downloadPhotoButtonText;
         private string _selectedCategory;
         private Recipe _recipe;
+        private List<Ingredient> _ingredients;
+        private MvxObservableCollection<Ingredient> _ingredientsToList;
 
         public List<string> Categories
         {
             get
             {
                 return Enum.GetNames(typeof(Category)).Select(c => c.SplitCamelCase()).ToList();
+            }
+        }
+
+        public MvxObservableCollection<Ingredient> Ingredients
+        {
+            get
+            {
+                return _ingredientsToList;
+            }
+            set
+            {
+                _ingredientsToList = value;
+                RaisePropertyChanged(() => Ingredients);
             }
         }
 
@@ -72,7 +87,7 @@ namespace RecipesBook.Core.ViewModels
             }
         }
 
-        public string SelectedCategory 
+        public string SelectedCategory
         {
             get
             {
@@ -114,6 +129,7 @@ namespace RecipesBook.Core.ViewModels
 
         public IMvxCommand PickPhotoCommand { get; private set; }
         public IMvxCommand AddIngredientCommand { get; private set; }
+        public IMvxCommand RefreshIngredientsCommand { get; private set; }
 
         public override void Prepare(Recipe parameter)
         {
@@ -149,22 +165,41 @@ namespace RecipesBook.Core.ViewModels
                 throw;
                 // Xamarin.Insights.Report(ex);
                 // await DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured it in Xamarin Insights! Thanks.", "OK");
-            }   
+            }
         }
 
         private async Task AddIngredient()
         {
-            await _navigationService.Navigate<IngredientViewModel>();
+            _ingredients = await _navigationService.Navigate<IngredientViewModel,
+                List<Ingredient>, List<Ingredient>>(_ingredients).ConfigureAwait(false);
+            RefreshIngredients();
         }
 
         private async Task CheckPermisionsAsync()
         {
-            var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+            var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage).ConfigureAwait(false);
 
             if (storageStatus != PermissionStatus.Granted)
             {
-                var permissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+                var permissions = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage).ConfigureAwait(false);
                 storageStatus = permissions[Permission.Storage];
+            }
+        }
+
+        private void RefreshIngredients()
+        {
+            Ingredients.AddRange(_ingredients);
+        }
+
+        private void InitializeIngredientCollections()
+        {
+            if (_ingredients == null)
+            {
+                _ingredients = new List<Ingredient>();
+            }
+            if(Ingredients == null)
+            {
+                Ingredients = new MvxObservableCollection<Ingredient>();
             }
         }
     }

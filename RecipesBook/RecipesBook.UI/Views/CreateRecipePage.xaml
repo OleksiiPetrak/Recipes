@@ -31,6 +31,26 @@
                 Title="Select category"
                 ItemsSource="{mvx:MvxBind Categories}"
                 SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
+            <views:MvxListView 
+                SelectionMode="None"
+                ItemsSource="{mvx:MvxBind Ingredients}"
+                RefreshCommand="{mvx:MvxBind RefreshIngredientsCommand}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout
+                                Orientation="Horizontal">
+                                <Label x:Name="IngredientNameLabel"
+                                    Text="{mvx:MvxBind IngredientName}"/>
+                                <Label x:Name="IngredientAmountLabel"
+                                    Text="{mvx:MvxBind Count}"/>
+                                <!--<Label x:Name="IngredientUnitLabel"
+                                    Text="{mvx:MvxBind IngredientUnit}"/>-->
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </views:MvxListView>
             <Button x:Name="AddIngredientButton" 
                     CornerRadius="20"
                     HeightRequest="40"
