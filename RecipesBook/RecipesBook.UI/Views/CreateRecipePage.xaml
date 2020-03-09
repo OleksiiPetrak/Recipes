@@ -41,11 +41,12 @@
                             <StackLayout
                                 Orientation="Horizontal">
                                 <Label x:Name="IngredientNameLabel"
+                                       HorizontalOptions="StartAndExpand"
                                     Text="{mvx:MvxBind IngredientName}"/>
                                 <Label x:Name="IngredientAmountLabel"
                                     Text="{mvx:MvxBind Count}"/>
-                                <!--<Label x:Name="IngredientUnitLabel"
-                                    Text="{mvx:MvxBind IngredientUnit}"/>-->
+                                <Label x:Name="IngredientUnitLabel"
+                                    Text="{mvx:MvxBind UnitName}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

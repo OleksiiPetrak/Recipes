@@ -13,27 +13,39 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Write the name of ingredient" 
-                   HeightRequest="20"/>
+        <StackLayout
+            Spacing="10"
+            Padding="20"
+            BackgroundColor="#c4e4c4">
+            <!--<Label Text="Write the name of ingredient"
+                   FontSize="Medium"
+                   HeightRequest="20"/>-->
             <Entry x:Name="IngredientNameEntry"
-                    mvx:Bi.nd ="Text IngredientName"/>
-            <Label Text="Write amount of ingredient" 
-                   HeightRequest="20"/>
-            <Entry x:Name="IngredientAmountEntry"
-                    mvx:Bi.nd ="Text IngredientAmount"/>
-            <Label Text="Select measure unit"
-                   HeightRequest="20"/>
+                    mvx:Bi.nd ="Text IngredientName"
+                   Placeholder="Write the name of ingredient"
+                   Margin="0,0,0,10"/>
+            <!--<Label Text="Write amount of ingredient" 
+                   FontSize="Medium"
+                   HeightRequest="20"/>-->
             <Picker
                 x:Name="UnitPicker"
-                Title="Select measure unit"
+                Margin="0,0,0,10"
+                Title="Select measure unit"               
                 ItemsSource="{mvx:MvxBind Units}"
                 SelectedItem="{mvx:MvxBind SelectedUnit, Converter=IntEnum}"/>
+            <Entry x:Name="IngredientAmountEntry"
+                   Margin="0,0,0,10"
+                   Placeholder="Write amount of unit"
+                    mvx:Bi.nd ="Text IngredientAmount"/>
+            <!--<Label Text="Select measure unit"
+                   FontSize="Medium"
+                   HeightRequest="20"/>-->
 
             <Button x:Name="SaveIngredientButton" 
-                    CornerRadius="20"
+                    CornerRadius="10"
                     HeightRequest="40"
-                    BackgroundColor="SaddleBrown"
+                    BackgroundColor="#b76262"
+                    Margin="0,20,0,0"
                     Text="{mvx:MvxBind SaveIngredientButtonText}"
                     mvx:Bi.nd="Clicked SaveIngredientCommand"
                     Command="{mvx:MvxBind SaveIngredientCommand}" />
