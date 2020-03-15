@@ -124,7 +124,8 @@ namespace RecipesBook.Core.ViewModels
 
         private Unit ConvertUnitInEnum(string name)
         {
-            var unit = (Unit) Enum.Parse(typeof(Unit), name);
+            var consistentName = name.Replace(" ", "");
+            var unit = (Unit) Enum.Parse(typeof(Unit), consistentName);
             return unit;
         }
     }
