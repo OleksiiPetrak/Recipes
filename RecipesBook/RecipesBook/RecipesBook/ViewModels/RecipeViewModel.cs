@@ -168,7 +168,7 @@ namespace RecipesBook.Core.ViewModels
             }
         }
 
-        private async Task AddIngredient()
+        public async Task AddIngredient()
         {
             _ingredients = await _navigationService.Navigate<IngredientViewModel,
                 List<Ingredient>, List<Ingredient>>(_ingredients).ConfigureAwait(false);

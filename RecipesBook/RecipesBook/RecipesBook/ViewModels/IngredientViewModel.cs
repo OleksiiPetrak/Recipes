@@ -20,7 +20,6 @@ namespace RecipesBook.Core.ViewModels
     public class IngredientViewModel : BaseViewModel<List<Ingredient>,List<Ingredient>>
     {
         private readonly IMvxNavigationService _navigationService;
-        private Unit _units;
         private List<Ingredient> _ingredients;
 
         public IngredientViewModel(IMvxNavigationService navigationService)
@@ -44,7 +43,7 @@ namespace RecipesBook.Core.ViewModels
         {
             get
             {
-                return Enum.GetNames(typeof(Unit)).ToList();
+                return Enum.GetNames(typeof(Unit)).Select(c=>c.SplitCamelCase()).ToList();
             }
         }
 
@@ -102,7 +101,7 @@ namespace RecipesBook.Core.ViewModels
 
         public IMvxCommand SaveIngredientCommand { get; private set; }
 
-        private async Task SaveIngredient()
+        public async Task SaveIngredient()
         {
             if (IngredientAmount >= 0 && IngredientName != null && SelectedUnit != null)
             {
