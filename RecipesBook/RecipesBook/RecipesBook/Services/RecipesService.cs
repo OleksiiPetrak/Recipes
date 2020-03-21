@@ -20,10 +20,9 @@ namespace RecipesBook.Core.Services
         {
             var recipes = await _unitOfWork.Recipes.GetAllAsync();
 
-            foreach(var recipe in recipes)
+            foreach (var recipe in recipes)
             {
                 recipe.Ingredients = await _unitOfWork.Ingredients.FindAsync(x => x.RecipeId == recipe.Id);
-                var ID = recipe.Id;
             }
 
             return recipes;
@@ -31,22 +30,15 @@ namespace RecipesBook.Core.Services
 
         public async Task UpserOneRecipe(Recipe recipe, List<Ingredient> ingredients)
         {
-            try
-            {
-                recipe.Id = Guid.NewGuid();
-                await _unitOfWork.Recipes.UpsertOneAsync(recipe);
+            recipe.Id = Guid.NewGuid();
+            await _unitOfWork.Recipes.UpsertOneAsync(recipe);
 
-                foreach(var ingredient in ingredients)
-                {
-                    ingredient.RecipeId = recipe.Id;
-                }
-
-                await _unitOfWork.Ingredients.UpsertManyAsync(ingredients);
-            }
-            catch (Exception ex)
+            foreach (var ingredient in ingredients)
             {
-                throw;
+                ingredient.RecipeId = recipe.Id;
             }
+
+            await _unitOfWork.Ingredients.UpsertManyAsync(ingredients);
         }
 
         public async Task UpserManyRecipes(List<Recipe> recipes)
