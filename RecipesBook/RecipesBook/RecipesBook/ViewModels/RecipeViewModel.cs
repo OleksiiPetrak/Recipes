@@ -29,6 +29,7 @@ namespace RecipesBook.Core.ViewModels
             _navigationService = navigationService;
             _recipesService = recipesService;
             InitializeIngredientCollections();
+            RecipeImageSource = ImageSource.FromFile("cookieEmptyPhoto.png");
             DownloadPhotoButtonText = "Download photo";
             SaveRecipeButtonText = "Save recipe";
             CookingTimeText = "Select cooking time";

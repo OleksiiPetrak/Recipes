@@ -20,9 +20,10 @@
                        Placeholder="Input recipe's title here"
                        FontSize="Large"
                        mvx:Bi.nd="Text RecipeName"/>
-                <Image x:Name="RecipePhoto"     
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand"
+                <Image x:Name="RecipePhoto"
+                   HeightRequest="175"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start"
                    Aspect="AspectFit"
                    Source="{mvx:MvxBind RecipeImageSource, Mode=OneWay}"/>
                 <Button x:Name="PickPhoto" 
