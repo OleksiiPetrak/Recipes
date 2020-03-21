@@ -10,7 +10,7 @@ namespace RecipesBook.Core.Models
     public class Recipe
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [MaxLength(250), Unique]
         public string Title { get; set; }

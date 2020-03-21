@@ -11,7 +11,7 @@ namespace RecipesBook.Core.Models
     public class Ingredient
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [MaxLength(250)]
         public string IngredientName { get; set; }
         public int Count { get; set; }
@@ -29,7 +29,7 @@ namespace RecipesBook.Core.Models
             } 
         }
         [ForeignKey(typeof(Recipe))]
-        public int? RecipeId { get; set; }
+        public Guid? RecipeId { get; set; }
         [ManyToOne]
         public Recipe Recipe { get; set; }
     }
