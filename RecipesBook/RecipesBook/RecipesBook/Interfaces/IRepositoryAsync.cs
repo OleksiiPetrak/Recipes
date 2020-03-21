@@ -11,7 +11,7 @@ namespace RecipesBook.Core.Interfaces
         Task UpsertOneAsync(T item);
         Task UpsertManyAsync(List<T> items);
         Task<T> GetOneAsync(Expression<Func<T, bool>> predicate);
-        Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> GetAllAsync();
         Task DeleteAsync(T item);
     }

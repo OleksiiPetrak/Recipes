@@ -24,14 +24,22 @@ namespace RecipesBook.Core.Repositories
             return await _connection.Table<T>().FirstOrDefaultAsync(predicate).ConfigureAwait(false);
         }
 
-        public async Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _connection.Table<T>().Where(predicate).ToListAsync().ConfigureAwait(false) as IQueryable<T>;
+            return await _connection.Table<T>().Where(predicate).ToListAsync().ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _connection.Table<T>().ToListAsync().ConfigureAwait(false);
+            try
+            {
+                var result = await _connection.Table<T>().ToListAsync().ConfigureAwait(false);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task UpsertOneAsync(T item)

@@ -2,6 +2,7 @@
 using RecipesBook.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RecipesBook.Core.Services
@@ -15,9 +16,16 @@ namespace RecipesBook.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Ingredient>> GetIngredients()
+        public async Task<IEnumerable<Ingredient>> GetAllIngredients()
         {
             var ingredients = await _unitOfWork.Ingredients.GetAllAsync();
+
+            return ingredients;
+        }
+
+        public async Task<IEnumerable<Ingredient>> GetManyIngredients(Expression<Func<Ingredient, bool>> predicate)
+        {
+            var ingredients = await _unitOfWork.Ingredients.FindAsync(predicate);
 
             return ingredients;
         }

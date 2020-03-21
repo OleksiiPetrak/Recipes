@@ -118,8 +118,6 @@ namespace RecipesBook.Core.ViewModels
                         IngredientUnit = ConvertUnitInEnum(SelectedUnit)
                     };
 
-                    await _ingredientService.UpserOneIngredient(ingredient);
-
                     _ingredients.Add(ingredient);
 
                     await _navigationService.Close(this, _ingredients).ConfigureAwait(false);

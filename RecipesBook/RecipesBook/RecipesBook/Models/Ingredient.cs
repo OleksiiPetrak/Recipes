@@ -30,7 +30,5 @@ namespace RecipesBook.Core.Models
         }
         [ForeignKey(typeof(Recipe))]
         public Guid? RecipeId { get; set; }
-        [ManyToOne]
-        public Recipe Recipe { get; set; }
     }
 }

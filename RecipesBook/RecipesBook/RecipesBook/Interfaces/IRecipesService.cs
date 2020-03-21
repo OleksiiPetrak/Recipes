@@ -1,7 +1,5 @@
 ﻿using RecipesBook.Core.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RecipesBook.Core.Interfaces
@@ -9,7 +7,7 @@ namespace RecipesBook.Core.Interfaces
     public interface IRecipesService
     {
         Task<IEnumerable<Recipe>> GetRecipes();
-        Task UpserOneRecipe(Recipe recipe);
+        Task UpserOneRecipe(Recipe recipe, List<Ingredient> ingredients);
         Task UpserManyRecipes(List<Recipe> recipes);
     }
 }

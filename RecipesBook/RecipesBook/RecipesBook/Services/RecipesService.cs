@@ -2,6 +2,7 @@
 using RecipesBook.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecipesBook.Core.Services
@@ -17,16 +18,30 @@ namespace RecipesBook.Core.Services
 
         public async Task<IEnumerable<Recipe>> GetRecipes()
         {
-            var resipes = await _unitOfWork.Recipes.GetAllAsync();
+            var recipes = await _unitOfWork.Recipes.GetAllAsync();
 
-            return resipes;
+            foreach(var recipe in recipes)
+            {
+                recipe.Ingredients = await _unitOfWork.Ingredients.FindAsync(x => x.RecipeId == recipe.Id);
+                var ID = recipe.Id;
+            }
+
+            return recipes;
         }
 
-        public async Task UpserOneRecipe(Recipe recipe)
+        public async Task UpserOneRecipe(Recipe recipe, List<Ingredient> ingredients)
         {
             try
             {
+                recipe.Id = Guid.NewGuid();
                 await _unitOfWork.Recipes.UpsertOneAsync(recipe);
+
+                foreach(var ingredient in ingredients)
+                {
+                    ingredient.RecipeId = recipe.Id;
+                }
+
+                await _unitOfWork.Ingredients.UpsertManyAsync(ingredients);
             }
             catch (Exception ex)
             {

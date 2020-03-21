@@ -261,7 +261,7 @@ namespace RecipesBook.Core.ViewModels
                         CookingSteps = CookingSteps
                     };
 
-                    await _recipesService.UpserOneRecipe(recipe);
+                    await _recipesService.UpserOneRecipe(recipe, _ingredients);
 
                     await _navigationService.Navigate<RecipesViewModel>().ConfigureAwait(false);
                 }
