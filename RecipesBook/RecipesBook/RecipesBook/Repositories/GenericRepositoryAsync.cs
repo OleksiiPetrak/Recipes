@@ -1,4 +1,5 @@
 ﻿using RecipesBook.Core.Interfaces;
+using RecipesBook.Core.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -15,40 +16,40 @@ namespace RecipesBook.Core.Repositories
         public GenericRepositoryAsync(SQLiteAsyncConnection connection)
         {
             _connection = connection;
-            connection.CreateTableAsync<T>();
+            connection.CreateTableAsync<T>().Wait();
         }
 
         public async Task<T> GetOneAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _connection.Table<T>().FirstOrDefaultAsync(predicate);
+            return await _connection.Table<T>().FirstOrDefaultAsync(predicate).ConfigureAwait(false);
         }
 
         public async Task<IQueryable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _connection.Table<T>().Where(predicate).ToListAsync() as IQueryable<T>;
+            return await _connection.Table<T>().Where(predicate).ToListAsync().ConfigureAwait(false) as IQueryable<T>;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _connection.Table<T>().ToListAsync();
+            return await _connection.Table<T>().ToListAsync().ConfigureAwait(false);
         }
 
         public async Task UpsertOneAsync(T item)
         {
-            await _connection.InsertOrReplaceAsync(item);
+            await _connection.InsertOrReplaceAsync(item).ConfigureAwait(false);
         }
 
         public async Task UpsertManyAsync(List<T> items)
         {
             foreach (var item in items)
             {
-                await _connection.InsertOrReplaceAsync(item);
+                await _connection.InsertOrReplaceAsync(item).ConfigureAwait(false);
             }
         }
 
         public async Task DeleteAsync(T item)
         {
-            await _connection.DeleteAsync(item);
+            await _connection.DeleteAsync(item).ConfigureAwait(false);
         }
     }
 }

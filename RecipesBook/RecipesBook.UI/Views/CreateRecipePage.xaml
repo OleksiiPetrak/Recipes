@@ -13,56 +13,79 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Image x:Name="RecipePhoto"     
+        <ScrollView>
+            <StackLayout 
+                BackgroundColor="#c4e4c4">
+                <Entry x:Name="RecipeNameEntry"
+                       Placeholder="Input recipe's title here"
+                       FontSize="Large"
+                       mvx:Bi.nd="Text RecipeName"/>
+                <Image x:Name="RecipePhoto"     
                    HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand"
                    Aspect="AspectFit"
                    Source="{mvx:MvxBind RecipeImageSource, Mode=OneWay}"/>
-            <Button x:Name="PickPhoto" 
+                <Button x:Name="PickPhoto" 
                     CornerRadius="20"
                     HeightRequest="40"
                     BackgroundColor="SaddleBrown"
                     Text="{mvx:MvxBind DownloadPhotoButtonText}"
                     mvx:Bi.nd="Clicked PickPhotoCommand"
                     Command="{mvx:MvxBind PickPhotoCommand}" />
-            <Picker
+                <Label x:Name="CookingTimeLabel"
+                       mvx:Bi.nd="Text CookingTimeText"
+                       FontSize="Medium"
+                       HeightRequest="20"/>
+                <Slider x:Name="CookingTimeSlider"
+                        Maximum="240"
+                        mvx:Bi.nd="Value CookingTime, Mode=TwoWay"/>
+                
+                <Picker
                 x:Name="CategoryPicker"
                 Title="Select category"
                 ItemsSource="{mvx:MvxBind Categories}"
                 SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
-            <views:MvxListView 
+                <views:MvxListView 
                 SelectionMode="None"
                 ItemsSource="{mvx:MvxBind Ingredients}"
                 RefreshCommand="{mvx:MvxBind RefreshIngredientsCommand}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout
                                 Orientation="Horizontal">
-                                <Label x:Name="IngredientNameLabel"
+                                    <Label x:Name="IngredientNameLabel"
                                        HorizontalOptions="StartAndExpand"
                                     Text="{mvx:MvxBind IngredientName}"/>
-                                <Label x:Name="IngredientAmountLabel"
+                                    <Label x:Name="IngredientAmountLabel"
                                     Text="{mvx:MvxBind Count}"/>
-                                <Label x:Name="IngredientUnitLabel"
+                                    <Label x:Name="IngredientUnitLabel"
                                     Text="{mvx:MvxBind UnitName}"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </views:MvxListView>
-            <Button x:Name="AddIngredientButton" 
-                    CornerRadius="20"
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </views:MvxListView>
+                <Button x:Name="AddIngredientButton" 
+                    CornerRadius="10"
                     HeightRequest="40"
-                    BackgroundColor="SaddleBrown"
+                    BackgroundColor="#b76262"
                     Text="Add new ingredient"
                     mvx:Bi.nd="Clicked AddIngredientCommand"
                     Command="{mvx:MvxBind AddIngredientCommand}" />
-            <Label Text="Write the steps for cooking" 
+                <Label Text="Write the steps for cooking" 
                    HeightRequest="20"/>
-            <Entry x:Name="RecipeDetails"
+                <Entry x:Name="RecipeDetails"
                     mvx:Bi.nd ="Text CookingSteps"/>
-        </StackLayout>
+                <Button x:Name="SaveRecipeButton" 
+                    CornerRadius="10"
+                    HeightRequest="40"
+                    BackgroundColor="#b76262"
+                    Margin="0,20,0,0"
+                    Text="{mvx:MvxBind SaveRecipeButtonText}"
+                    mvx:Bi.nd="Clicked SaveRecipeCommand"
+                    Command="{mvx:MvxBind SaveRecipeCommand}" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </views:MvxContentPage>

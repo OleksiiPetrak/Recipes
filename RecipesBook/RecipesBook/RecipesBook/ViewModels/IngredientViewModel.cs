@@ -14,17 +14,21 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Linq;
 using RecipesBook.Common.Extensions;
+using RecipesBook.Core.Interfaces;
 
 namespace RecipesBook.Core.ViewModels
 {
     public class IngredientViewModel : BaseViewModel<List<Ingredient>,List<Ingredient>>
     {
         private readonly IMvxNavigationService _navigationService;
+        private readonly IIngredientService _ingredientService;
         private List<Ingredient> _ingredients;
 
-        public IngredientViewModel(IMvxNavigationService navigationService)
+        public IngredientViewModel(IMvxNavigationService navigationService,
+            IIngredientService ingredientService)
         {
             _navigationService = navigationService;
+            _ingredientService = ingredientService;
             SaveIngredientButtonText = "Save ingredient";
             SaveIngredientCommand = new MvxAsyncCommand(SaveIngredient);
         }
@@ -103,22 +107,31 @@ namespace RecipesBook.Core.ViewModels
 
         public async Task SaveIngredient()
         {
-            if (IngredientAmount >= 0 && IngredientName != null && SelectedUnit != null)
+            try
             {
-                var ingredient = new Ingredient
+                if (IngredientAmount > 0 && IngredientName != null && SelectedUnit != null)
                 {
-                    IngredientName = IngredientName,
-                    Count = IngredientAmount,
-                    IngredientUnit = ConvertUnitInEnum(SelectedUnit)
-                };
+                    var ingredient = new Ingredient
+                    {
+                        IngredientName = IngredientName,
+                        Count = IngredientAmount,
+                        IngredientUnit = ConvertUnitInEnum(SelectedUnit)
+                    };
 
-                _ingredients.Add(ingredient);
+                    await _ingredientService.UpserOneIngredient(ingredient);
 
-                await _navigationService.Close(this, _ingredients).ConfigureAwait(false);
+                    _ingredients.Add(ingredient);
+
+                    await _navigationService.Close(this, _ingredients).ConfigureAwait(false);
+                }
+                else
+                {
+                    SaveIngredientButtonText = "Input correct data";
+                }
             }
-            else
+            catch(Exception ex)
             {
-                SaveIngredientButtonText = "Input correct data";
+                throw;
             }
         }
 

@@ -24,15 +24,17 @@
                     mvx:Bi.nd ="Text IngredientName"
                    Placeholder="Write the name of ingredient"
                    Margin="0,0,0,10"/>
-            <!--<Label Text="Write amount of ingredient" 
-                   FontSize="Medium"
-                   HeightRequest="20"/>-->
+
             <Picker
                 x:Name="UnitPicker"
                 Margin="0,0,0,10"
                 Title="Select measure unit"               
                 ItemsSource="{mvx:MvxBind Units}"
                 SelectedItem="{mvx:MvxBind SelectedUnit, Converter=IntEnum}"/>
+
+            <Label Text="Write amount of ingredient below" 
+                   FontSize="Medium"
+                   HeightRequest="20"/>
             <Entry x:Name="IngredientAmountEntry"
                    Margin="0,0,0,10"
                    Placeholder="Write amount of unit"

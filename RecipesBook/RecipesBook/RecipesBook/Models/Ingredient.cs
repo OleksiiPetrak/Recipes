@@ -1,12 +1,13 @@
 ﻿using RecipesBook.Common.Enums;
 using RecipesBook.Common.Extensions;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 
 namespace RecipesBook.Core.Models
 {
-    [Table("ingredient")]
+    [Table("Ingredient")]
     public class Ingredient
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
@@ -27,5 +28,9 @@ namespace RecipesBook.Core.Models
                 IngredientUnit = (Unit) Enum.Parse(typeof(Unit), value);
             } 
         }
+        [ForeignKey(typeof(Recipe))]
+        public int? RecipeId { get; set; }
+        [ManyToOne]
+        public Recipe Recipe { get; set; }
     }
 }

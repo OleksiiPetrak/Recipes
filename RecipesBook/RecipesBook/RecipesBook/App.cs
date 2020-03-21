@@ -14,7 +14,7 @@ namespace RecipesBook.Core
         public override void Initialize()
         {
             Mvx.IoCProvider.RegisterSingleton<IFileAccessHelper>(new FileAccessHelper());
-            Mvx.IoCProvider.RegisterType(typeof(IRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
+            Mvx.IoCProvider.RegisterSingleton(typeof(IRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
             Mvx.IoCProvider.ConstructAndRegisterSingleton<IUnitOfWork, UnitOfWork>();
 
             CreatableTypes()

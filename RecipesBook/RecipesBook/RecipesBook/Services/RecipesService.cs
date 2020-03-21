@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using RecipesBook.Core.Interfaces;
+﻿using RecipesBook.Core.Interfaces;
 using RecipesBook.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RecipesBook.Core.Services
 {
@@ -16,11 +15,6 @@ namespace RecipesBook.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task AddNewRecipes(Recipe recipe)
-        {
-            await _unitOfWork.Recipes.UpsertOneAsync(recipe);
-        }
-
         public async Task<IEnumerable<Recipe>> GetRecipes()
         {
             var resipes = await _unitOfWork.Recipes.GetAllAsync();
@@ -28,6 +22,21 @@ namespace RecipesBook.Core.Services
             return resipes;
         }
 
-        
+        public async Task UpserOneRecipe(Recipe recipe)
+        {
+            try
+            {
+                await _unitOfWork.Recipes.UpsertOneAsync(recipe);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task UpserManyRecipes(List<Recipe> recipes)
+        {
+            await _unitOfWork.Recipes.UpsertManyAsync(recipes);
+        }
     }
 }

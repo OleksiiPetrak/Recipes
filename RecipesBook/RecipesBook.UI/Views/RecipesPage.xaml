@@ -55,7 +55,7 @@
                 TextColor="White"
                 Text="+"
                 CornerRadius="60"
-                Command="{mvx:MvxBind NavigateToCreatePageCommand}"/>
+                Command="{mvx:MvxBind NavigateToCreateRecipePageCommand}"/>
             </Grid>
     </ContentPage.Content>
 </views:MvxContentPage>

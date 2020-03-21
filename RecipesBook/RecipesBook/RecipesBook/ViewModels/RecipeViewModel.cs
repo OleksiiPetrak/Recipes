@@ -13,27 +13,39 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Newtonsoft.Json;
+using RecipesBook.Core.Interfaces;
 
 namespace RecipesBook.Core.ViewModels
 {
     public class RecipeViewModel : BaseViewModel<Recipe, Recipe>
     {
         private readonly IMvxNavigationService _navigationService;
-        
-        public RecipeViewModel(IMvxNavigationService navigationService)
+        private readonly IRecipesService _recipesService;
+
+        public RecipeViewModel(IMvxNavigationService navigationService, 
+            IRecipesService recipesService)
         {
             _navigationService = navigationService;
-            InitializeIngredientCollections();                     
+            _recipesService = recipesService;
+            InitializeIngredientCollections();
             DownloadPhotoButtonText = "Download photo";
+            SaveRecipeButtonText = "Save recipe";
+            CookingTimeText = "Select cooking time";
             PickPhotoCommand = new MvxAsyncCommand(PickPhoto);
             AddIngredientCommand = new MvxAsyncCommand(AddIngredient);
             RefreshIngredientsCommand = new MvxCommand(RefreshIngredients);
+            SaveRecipeCommand = new MvxAsyncCommand(SaveRecipe);
         }
 
+        private string _recipeName;
         private string _cookingStreps;
+        private string _cookingTimeText;
         private ImageSource _recipeImageSource;
         private string _downloadPhotoButtonText;
+        private string _saveRecipeButtonText;
         private string _selectedCategory;
+        private int _cookingTime;
         private Recipe _recipe;
         private List<Ingredient> _ingredients;
         private MvxObservableCollection<Ingredient> _ingredientsToList;
@@ -48,10 +60,7 @@ namespace RecipesBook.Core.ViewModels
 
         public MvxObservableCollection<Ingredient> Ingredients
         {
-            get
-            {
-                return _ingredientsToList;
-            }
+            get => _ingredientsToList;
             set
             {
                 _ingredientsToList = value;
@@ -61,11 +70,7 @@ namespace RecipesBook.Core.ViewModels
 
         public Recipe Recipe
         {
-            get
-            {
-                return _recipe;
-            }
-
+            get => _recipe;
             set
             {
                 _recipe = value;
@@ -73,13 +78,41 @@ namespace RecipesBook.Core.ViewModels
             }
         }
 
+        public string RecipeName
+        {
+            get => _recipeName;
+            set
+            {
+                _recipeName = value;
+                RaisePropertyChanged(() => RecipeName);
+            }
+        }
+
+        public int CookingTime
+        {
+            get => _cookingTime;
+            set
+            {
+                _cookingTime = value;
+                RaisePropertyChanged(() => CookingTime);
+
+                OutputCookingTime();
+            }
+        }
+
+        public string CookingTimeText
+        {
+            get => _cookingTimeText;
+            set
+            {
+                _cookingTimeText = value;
+                RaisePropertyChanged(() => CookingTimeText);
+            }
+        }
+
         public ImageSource RecipeImageSource
         {
-            get
-            {
-                return _recipeImageSource;
-            }
-
+            get => _recipeImageSource;
             set
             {
                 _recipeImageSource = value;
@@ -89,10 +122,7 @@ namespace RecipesBook.Core.ViewModels
 
         public string SelectedCategory
         {
-            get
-            {
-                return _selectedCategory;
-            }
+            get => _selectedCategory;
             set
             {
                 _selectedCategory = value;
@@ -102,10 +132,7 @@ namespace RecipesBook.Core.ViewModels
 
         public string DownloadPhotoButtonText
         {
-            get
-            {
-                return _downloadPhotoButtonText;
-            }
+            get => _downloadPhotoButtonText;
             set
             {
                 _downloadPhotoButtonText = value;
@@ -113,13 +140,19 @@ namespace RecipesBook.Core.ViewModels
             }
         }
 
+        public string SaveRecipeButtonText
+        {
+            get => _saveRecipeButtonText;
+            set
+            {
+                _saveRecipeButtonText = value;
+                RaisePropertyChanged(() => SaveRecipeButtonText);
+            }
+        }
+
         public string CookingSteps
         {
-            get
-            {
-                return _cookingStreps;
-            }
-
+            get => _cookingStreps;
             set
             {
                 _cookingStreps = value;
@@ -130,11 +163,7 @@ namespace RecipesBook.Core.ViewModels
         public IMvxCommand PickPhotoCommand { get; private set; }
         public IMvxCommand AddIngredientCommand { get; private set; }
         public IMvxCommand RefreshIngredientsCommand { get; private set; }
-
-        public override void Prepare(Recipe parameter)
-        {
-            Recipe = parameter;
-        }
+        public IMvxCommand SaveRecipeCommand { get; private set; }
 
         private async Task PickPhoto()
         {
@@ -143,7 +172,6 @@ namespace RecipesBook.Core.ViewModels
             if (!CrossMedia.Current.IsPickPhotoSupported)
             {
                 _downloadPhotoButtonText = "Photos Not Supported(";
-                //await DisplayAlert("Photos Not Supported", ":( Permission not granted to photos.", "OK");
                 return;
             }
             try
@@ -163,8 +191,6 @@ namespace RecipesBook.Core.ViewModels
             catch (Exception ex)
             {
                 throw;
-                // Xamarin.Insights.Report(ex);
-                // await DisplayAlert("Uh oh", "Something went wrong, but don't worry we captured it in Xamarin Insights! Thanks.", "OK");
             }
         }
 
@@ -188,6 +214,7 @@ namespace RecipesBook.Core.ViewModels
 
         private void RefreshIngredients()
         {
+            Ingredients.Clear();
             Ingredients.AddRange(_ingredients);
         }
 
@@ -197,10 +224,61 @@ namespace RecipesBook.Core.ViewModels
             {
                 _ingredients = new List<Ingredient>();
             }
-            if(Ingredients == null)
+            if (Ingredients == null)
             {
                 Ingredients = new MvxObservableCollection<Ingredient>();
             }
+        }
+
+        private void OutputCookingTime()
+        {
+            CookingTimeText = $"{CookingTime} min";
+        }
+
+        private Category ConverCategoryInEnum(string name)
+        {
+            var consistentName = name.Replace(" ", "");
+            var category = (Category)Enum.Parse(typeof(Category), consistentName);
+            return category;
+        }
+
+        public async Task SaveRecipe()
+        {
+            if (RecipeName != null && RecipeImageSource != null && CookingTime != 0 &&
+                SelectedCategory != null && Ingredients != null && CookingSteps != null)
+            {
+                try
+                {
+                    var category = ConverCategoryInEnum(SelectedCategory);
+
+                    var recipe = new Recipe
+                    {
+                        Title = RecipeName,
+                        RecipeImage = RecipeImageSource.ToString(),
+                        CookingTime = CookingTime,
+                        Category = category,
+                        Ingredients = _ingredients,
+                        CookingSteps = CookingSteps
+                    };
+
+                    await _recipesService.UpserOneRecipe(recipe);
+
+                    await _navigationService.Navigate<RecipesViewModel>().ConfigureAwait(false);
+                }
+                catch(Exception ex)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                SaveRecipeButtonText = "Input all correct data";
+            }
+        }
+
+        public override void Prepare(Recipe parameter)
+        {
+            Recipe = parameter;
         }
     }
 }

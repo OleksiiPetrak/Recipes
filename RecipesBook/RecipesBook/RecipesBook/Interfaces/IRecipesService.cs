@@ -9,6 +9,7 @@ namespace RecipesBook.Core.Interfaces
     public interface IRecipesService
     {
         Task<IEnumerable<Recipe>> GetRecipes();
-        Task AddNewRecipes(Recipe recipe);
+        Task UpserOneRecipe(Recipe recipe);
+        Task UpserManyRecipes(List<Recipe> recipes);
     }
 }
