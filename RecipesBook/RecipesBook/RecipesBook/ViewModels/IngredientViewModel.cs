@@ -1,20 +1,13 @@
 ﻿using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
-using Plugin.Media;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using RecipesBook.Common.Enums;
+using RecipesBook.Common.Extensions;
+using RecipesBook.Core.Interfaces;
 using RecipesBook.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 using System.Linq;
-using RecipesBook.Common.Extensions;
-using RecipesBook.Core.Interfaces;
+using System.Threading.Tasks;
 
 namespace RecipesBook.Core.ViewModels
 {
@@ -45,18 +38,12 @@ namespace RecipesBook.Core.ViewModels
 
         public List<string> Units
         {
-            get
-            {
-                return Enum.GetNames(typeof(Unit)).Select(c=>c.SplitCamelCase()).ToList();
-            }
+            get => Enum.GetNames(typeof(Unit)).Select(c=>c.SplitCamelCase()).ToList();
         }
 
         public string SelectedUnit
         {
-            get
-            {
-                return _selectedUnit;
-            }
+            get => _selectedUnit;
             set
             {
                 _selectedUnit = value;
@@ -66,10 +53,7 @@ namespace RecipesBook.Core.ViewModels
 
         public string IngredientName
         {
-            get
-            {
-                return _ingredientName;
-            }
+            get => _ingredientName;
             set
             {
                 _ingredientName = value;
@@ -79,10 +63,7 @@ namespace RecipesBook.Core.ViewModels
 
         public int IngredientAmount
         {
-            get
-            {
-                return _ingredientAmount;
-            }
+            get => _ingredientAmount;
             set
             {
                 _ingredientAmount = value;
@@ -92,10 +73,7 @@ namespace RecipesBook.Core.ViewModels
 
         public string SaveIngredientButtonText
         {
-            get
-            {
-                return _saveIngredientButtonText;
-            }
+            get => _saveIngredientButtonText;
             set
             {
                 _saveIngredientButtonText = value;
