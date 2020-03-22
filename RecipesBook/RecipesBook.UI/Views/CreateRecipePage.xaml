@@ -16,6 +16,8 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout 
+                Spacing="10"
+                Padding="20"
                 BackgroundColor="#c4e4c4">
                 <Entry x:Name="RecipeNameEntry"
                        Placeholder="Input recipe's title here"
@@ -37,9 +39,9 @@
                 <Label x:Name="CookingTimeLabel"
                        mvx:Bi.nd="Text CookingTimeText"
                        FontSize="Medium"
-                       HeightRequest="20"/>
+                       HeightRequest="25"/>
                 <Slider x:Name="CookingTimeSlider"
-                        Maximum="240"
+                        Maximum="180"
                         mvx:Bi.nd="Value CookingTime, Mode=TwoWay"/>
                 <Picker
                 x:Name="CategoryPicker"
@@ -47,17 +49,20 @@
                 ItemsSource="{mvx:MvxBind Categories}"
                 SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
                 <controls:NestedScroll
+                    Margin="0,0,0,-10"
                     SelectionMode="None"
-                    HeightRequest="100"
+                    HeightRequest="120"
                     ItemsSource="{mvx:MvxBind Ingredients}"
                     RefreshCommand="{mvx:MvxBind RefreshIngredientsCommand}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout
+                                    Margin="0,10,0,0"
                                 Orientation="Horizontal">
                                     <Label x:Name="IngredientNameLabel"
                                        HorizontalOptions="StartAndExpand"
+                                           FontAttributes="Bold"
                                     Text="{mvx:MvxBind IngredientName}"/>
                                     <Label x:Name="IngredientAmountLabel"
                                     Text="{mvx:MvxBind Count}"/>
@@ -77,7 +82,8 @@
                     Command="{mvx:MvxBind AddIngredientCommand}" />
                 <Label Text="Write the steps for cooking" 
                    HeightRequest="20"/>
-                <Entry x:Name="RecipeDetails"
+                <Editor x:Name="RecipeDetails"
+                        AutoSize="TextChanges"
                     mvx:Bi.nd ="Text CookingSteps"/>
                 <Button x:Name="SaveRecipeButton" 
                     CornerRadius="10"

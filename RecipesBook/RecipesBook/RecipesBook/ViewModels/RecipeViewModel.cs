@@ -233,7 +233,7 @@ namespace RecipesBook.Core.ViewModels
 
         private void OutputCookingTime()
         {
-            CookingTimeText = $"{CookingTime} min";
+            CookingTimeText = $"Will cook {CookingTime} min";
         }
 
         private Category ConverCategoryInEnum(string name)
