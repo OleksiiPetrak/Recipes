@@ -3,7 +3,8 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RecipesBook.UI.Views.CreateRecipePage"
-             xmlns:local="clr-namespace:RecipesBook.Core.Converters"         
+             xmlns:local="clr-namespace:RecipesBook.Core.Converters"  
+             xmlns:controls="clr-namespace:RecipesBook.Core.CustomRendered;assembly=RecipesBook.Core"
              xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
              xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
              xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core">
@@ -40,16 +41,16 @@
                 <Slider x:Name="CookingTimeSlider"
                         Maximum="240"
                         mvx:Bi.nd="Value CookingTime, Mode=TwoWay"/>
-                
                 <Picker
                 x:Name="CategoryPicker"
                 Title="Select category"
                 ItemsSource="{mvx:MvxBind Categories}"
                 SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
-                <views:MvxListView 
-                SelectionMode="None"
-                ItemsSource="{mvx:MvxBind Ingredients}"
-                RefreshCommand="{mvx:MvxBind RefreshIngredientsCommand}">
+                <controls:NestedScroll
+                    SelectionMode="None"
+                    HeightRequest="100"
+                    ItemsSource="{mvx:MvxBind Ingredients}"
+                    RefreshCommand="{mvx:MvxBind RefreshIngredientsCommand}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -66,7 +67,7 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </views:MvxListView>
+                </controls:NestedScroll>
                 <Button x:Name="AddIngredientButton" 
                     CornerRadius="10"
                     HeightRequest="40"

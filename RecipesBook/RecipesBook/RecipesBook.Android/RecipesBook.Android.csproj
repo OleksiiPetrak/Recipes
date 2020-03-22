@@ -162,6 +162,7 @@
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1039999" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderer\NestedScrollDroid.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RootActivity.cs" />
