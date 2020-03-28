@@ -23,13 +23,13 @@ namespace RecipesBook.Core.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private readonly IRecipesService _recipesService;
 
-        public RecipeViewModel(IMvxNavigationService navigationService, 
+        public RecipeViewModel(IMvxNavigationService navigationService,
             IRecipesService recipesService)
         {
             _navigationService = navigationService;
             _recipesService = recipesService;
             InitializeIngredientCollections();
-            RecipeImageSource = ImageSource.FromFile("cookieEmptyPhoto.png");
+            RecipeImageSource = ImageSource.FromFile("Cookies.png");
             DownloadPhotoButtonText = "Download photo";
             SaveRecipeButtonText = "Save recipe";
             CookingTimeText = "Select cooking time";
@@ -128,11 +128,13 @@ namespace RecipesBook.Core.ViewModels
             {
                 _selectedCategory = value;
                 RaisePropertyChanged(() => SelectedCategory);
+                SelectImageToCategory();
             }
         }
 
         public string DownloadPhotoButtonText
         {
+            //Doesn't used in version 1.0
             get => _downloadPhotoButtonText;
             set
             {
@@ -168,6 +170,7 @@ namespace RecipesBook.Core.ViewModels
 
         private async Task PickPhoto()
         {
+            //Doesn't used in version 1.0
             await CheckPermisionsAsync();
 
             if (!CrossMedia.Current.IsPickPhotoSupported)
@@ -204,6 +207,7 @@ namespace RecipesBook.Core.ViewModels
 
         private async Task CheckPermisionsAsync()
         {
+            //Doesn't used in version 1.0
             var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage).ConfigureAwait(false);
 
             if (storageStatus != PermissionStatus.Granted)
@@ -241,6 +245,19 @@ namespace RecipesBook.Core.ViewModels
             var consistentName = name.Replace(" ", "");
             var category = (Category)Enum.Parse(typeof(Category), consistentName);
             return category;
+        }
+
+        private void SelectImageToCategory()
+        {
+            var category = ConverCategoryInEnum(SelectedCategory);
+            switch (category)
+            {
+                case Category.FirstDish: RecipeImageSource = ImageSource.FromFile("FirstDish.png"); break;
+                case Category.MainDish: RecipeImageSource = ImageSource.FromFile("MainDish.png"); break;
+                case Category.Salad: RecipeImageSource = ImageSource.FromFile("Salad.png"); break;
+                case Category.Dessert: RecipeImageSource = ImageSource.FromFile("Dessert.png"); break;
+                case Category.Cocktail: RecipeImageSource = ImageSource.FromFile("Cocktail.png"); break;
+            }
         }
 
         public async Task SaveRecipe()

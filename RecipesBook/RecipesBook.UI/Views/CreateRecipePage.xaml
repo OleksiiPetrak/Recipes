@@ -23,19 +23,17 @@
                        Placeholder="Input recipe's title here"
                        FontSize="Large"
                        mvx:Bi.nd="Text RecipeName"/>
-                <Image x:Name="RecipePhoto"
+                <Image x:Name="RecipeImage"
                    HeightRequest="175"
                    HorizontalOptions="Center"
                    VerticalOptions="Start"
                    Aspect="AspectFit"
                    Source="{mvx:MvxBind RecipeImageSource, Mode=OneWay}"/>
-                <Button x:Name="PickPhoto" 
-                    CornerRadius="20"
-                    HeightRequest="40"
-                    BackgroundColor="SaddleBrown"
-                    Text="{mvx:MvxBind DownloadPhotoButtonText}"
-                    mvx:Bi.nd="Clicked PickPhotoCommand"
-                    Command="{mvx:MvxBind PickPhotoCommand}" />
+                <Picker
+                x:Name="CategoryPicker"
+                Title="Select category"
+                ItemsSource="{mvx:MvxBind Categories}"
+                SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
                 <Label x:Name="CookingTimeLabel"
                        mvx:Bi.nd="Text CookingTimeText"
                        FontSize="Medium"
@@ -43,11 +41,6 @@
                 <Slider x:Name="CookingTimeSlider"
                         Maximum="180"
                         mvx:Bi.nd="Value CookingTime, Mode=TwoWay"/>
-                <Picker
-                x:Name="CategoryPicker"
-                Title="Select category"
-                ItemsSource="{mvx:MvxBind Categories}"
-                SelectedItem="{mvx:MvxBind SelectedCategory, Converter=IntEnum}"/>
                 <controls:NestedScroll
                     Margin="0,0,0,-10"
                     SelectionMode="None"
