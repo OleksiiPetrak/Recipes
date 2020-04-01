@@ -4,24 +4,22 @@ using Xamarin.Forms;
 
 namespace RecipesBook.UI.Converters
 {
-    public class IntEnumConverter : IValueConverter
+    public class PathImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Enum)
+            if(value is string)
             {
-                return (int)value;
+                var path = (string)value;
+                var result = ImageSource.FromFile(path);
+                return result;
             }
-            return 0;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int)
-            {
-                return Enum.ToObject(targetType, value);
-            }
-            return 0;
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,24 +4,25 @@ using Xamarin.Forms;
 
 namespace RecipesBook.UI.Converters
 {
-    public class IntEnumConverter : IValueConverter
+    public class DescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Enum)
+            if (value is string)
             {
-                return (int)value;
+                var cookingSteps = (string)value;
+                if (cookingSteps.Length > 20)
+                    return cookingSteps.Substring(0, 20);
+                else
+                    return cookingSteps;
             }
-            return 0;
+
+            return (string)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int)
-            {
-                return Enum.ToObject(targetType, value);
-            }
-            return 0;
+            throw new NotImplementedException();
         }
     }
 }

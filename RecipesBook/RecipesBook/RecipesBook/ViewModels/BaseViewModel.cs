@@ -12,6 +12,14 @@ namespace RecipesBook.Core.ViewModels
         }
     }
 
+    public abstract class BaseViewModel<TParameter> : MvxViewModel<TParameter>
+        where TParameter : class
+    {
+        protected BaseViewModel()
+        {
+        }
+    }
+
     public abstract class BaseViewModel<TParameter, TResult> : MvxViewModel<TParameter, TResult>
         where TParameter : class
         where TResult : class

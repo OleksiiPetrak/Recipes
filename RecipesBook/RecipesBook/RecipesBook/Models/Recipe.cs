@@ -2,6 +2,7 @@
 using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace RecipesBook.Core.Models
 {
@@ -13,7 +14,7 @@ namespace RecipesBook.Core.Models
 
         [MaxLength(250), Unique]
         public string Title { get; set; }
-        public string RecipeImage { get; set; }
+        public string RecipeImagePath { get; set; }
         public int CookingTime { get; set; }
         public Common.Enums.Category Category { get; set; }
         public string CookingSteps { get; set; }

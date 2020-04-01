@@ -1,38 +1,37 @@
 ﻿using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using RecipesBook.Common.Enums;
 using RecipesBook.Core.Interfaces;
 using RecipesBook.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RecipesBook.Core.ViewModels
 {
-    public class RecipesViewModel: BaseViewModel
+    public class RecipesViewModel : BaseViewModel<string>
     {
-        private string _nextPage;
         private readonly IMvxNavigationService _navigationService;
         private readonly IRecipesService _recipesService;
+        private readonly Category category;
 
         public RecipesViewModel(IRecipesService recipesService,
             IMvxNavigationService navigationService)
         {
-             _recipesService = recipesService;
-             _navigationService = navigationService;
+            if (_recipes == null)
+            {
+                _recipes = new MvxObservableCollection<Recipe>();
+            }
+            _recipesService = recipesService;
+            _navigationService = navigationService;
 
-             Recipes = new MvxObservableCollection<Recipe>();
+            Recipes = new MvxObservableCollection<Recipe>();
 
             RecipeSelectedCommand = new MvxAsyncCommand<Recipe>(RecipeSelected);
             FetchRecipesCommand = new MvxCommand(
                 () =>
                 {
-                    if (!string.IsNullOrEmpty(_nextPage))
-                    {
-                        FetchRecipesTask = MvxNotifyTask.Create(LoadRecipes);
-                        RaisePropertyChanged(() => FetchRecipesTask);
-                    }
+                    FetchRecipesTask = MvxNotifyTask.Create(LoadRecipes);
+                    RaisePropertyChanged(() => FetchRecipesTask);
                 });
             RefreshRecipesCommand = new MvxCommand(RefreshRecipes);
             NavigateToCreateRecipePageCommand = new MvxAsyncCommand(NavigateToCreateRecipePage);
@@ -41,7 +40,12 @@ namespace RecipesBook.Core.ViewModels
         public override Task Initialize()
         {
             LoadRecipesTask = MvxNotifyTask.Create(LoadRecipes);
-             return base.Initialize();
+            return base.Initialize();
+        }
+
+        public override void ViewAppearing()
+        {
+            RefreshRecipes();
         }
 
         public MvxNotifyTask LoadRecipesTask { get; private set; }
@@ -70,7 +74,12 @@ namespace RecipesBook.Core.ViewModels
 
         private async Task LoadRecipes()
         {
-            var result = await _recipesService.GetRecipes();
+            var recipesList = await _recipesService.GetRecipes();
+            if (recipesList != null)
+            {
+                Recipes.Clear();
+                Recipes.AddRange(recipesList);
+            }
         }
 
         private async Task RecipeSelected(Recipe selectedRecipe)
@@ -80,8 +89,6 @@ namespace RecipesBook.Core.ViewModels
 
         private void RefreshRecipes()
         {
-            _nextPage = null;
-
             LoadRecipesTask = MvxNotifyTask.Create(LoadRecipes);
 
             RaisePropertyChanged(() => LoadRecipesTask);
@@ -90,7 +97,11 @@ namespace RecipesBook.Core.ViewModels
         private async Task NavigateToCreateRecipePage()
         {
             await _navigationService.Navigate<RecipeViewModel>();
-            RefreshRecipes();
+        }
+
+        public override void Prepare(string parameter)
+        {
+            
         }
     }
 }

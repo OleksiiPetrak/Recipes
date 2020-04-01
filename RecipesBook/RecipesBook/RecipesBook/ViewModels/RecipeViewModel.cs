@@ -268,20 +268,18 @@ namespace RecipesBook.Core.ViewModels
                 try
                 {
                     var category = ConverCategoryInEnum(SelectedCategory);
-
+                    var imageName = SelectedCategory.Replace(" ", "");
                     var recipe = new Recipe
                     {
                         Title = RecipeName,
-                        RecipeImage = RecipeImageSource.ToString(),
+                        RecipeImagePath = $"{imageName}.png",
                         CookingTime = CookingTime,
                         Category = category,
                         Ingredients = _ingredients,
                         CookingSteps = CookingSteps
                     };
-
                     await _recipesService.UpserOneRecipe(recipe, _ingredients);
-
-                    await _navigationService.Navigate<RecipesViewModel>().ConfigureAwait(false);
+                    await _navigationService.Close(this).ConfigureAwait(false);
                 }
                 catch(Exception ex)
                 {

@@ -15,6 +15,8 @@ namespace RecipesBook.UI.Views
     [MvxMasterDetailPagePresentation(MasterDetailPosition.Root, WrapInNavigationPage = false, NoHistory = true)]
     public partial class MainPage : MvxMasterDetailPage<MainViewModel>
     {
+        private bool _firstTime = true;
+
         public MainPage()
         {
             InitializeComponent();
@@ -22,7 +24,13 @@ namespace RecipesBook.UI.Views
 
         protected override void OnAppearing()
         {
-            ViewModel.ShowRecipesViewModel.Execute(null);
+            if (_firstTime)
+            {
+                ViewModel.ShowMenuViewModelCommand.Execute(null);
+                ViewModel.ShowRecipesViewModelCommand.Execute(null);
+
+                _firstTime = false;
+            }
 
             base.OnAppearing();
         }

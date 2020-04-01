@@ -12,13 +12,15 @@ namespace RecipesBook.Core.ViewModels
     {
         private readonly IMvxNavigationService _navigationService;
 
-        public IMvxAsyncCommand ShowRecipesViewModel { get; private set; }
+        public IMvxAsyncCommand ShowRecipesViewModelCommand { get; private set; }
+        public IMvxAsyncCommand ShowMenuViewModelCommand { get; private set; }
 
         public MainViewModel(IMvxNavigationService navigationService)
         {
             _navigationService = navigationService;
 
-            ShowRecipesViewModel = new MvxAsyncCommand(async () => await _navigationService.Navigate<RecipesViewModel>());
+            ShowRecipesViewModelCommand = new MvxAsyncCommand(async () => await _navigationService.Navigate<RecipesViewModel>());
+            ShowMenuViewModelCommand = new MvxAsyncCommand(async () => await _navigationService.Navigate<MenuViewModel>());
         }
     }
 }
