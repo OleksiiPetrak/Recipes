@@ -8,5 +8,6 @@
         x:Name="Label"
         HorizontalOptions="StartAndExpand"
         VerticalOptions="Center"
-        TextColor="Black"/>
+        FontSize="Medium"
+        TextColor="#b76262"/>
 </StackLayout>

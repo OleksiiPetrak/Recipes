@@ -8,7 +8,7 @@
              xmlns:viewModels="clr-namespace:RecipesBook.Core.ViewModels;assembly=RecipesBook.Core"
              xmlns:component="clr-namespace:RecipesBook.UI.Components"
              x:Class="RecipesBook.UI.Views.MenuPage"
-             BackgroundColor="Gray"
+             BackgroundColor="#c4e4c4"
              Title="Menu"
              Icon="ic_menu">
     <ContentPage.Content>
@@ -16,6 +16,19 @@
             HorizontalOptions="FillAndExpand" 
                 VerticalOptions="StartAndExpand"
                 Orientation="Vertical">
+            <Label 
+                x:Name="Label"
+                Margin="0,15,0,10"
+                Text="Choose category:)"
+                FontAttributes="Bold"
+                FontSize="Large"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                TextColor="#b76262"/>
+            <BoxView
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="2"
+                    BackgroundColor="#b76262" />
             <component:MenuOptionView
                     HorizontalOptions="FillAndExpand" 
                     VerticalOptions="StartAndExpand"
@@ -24,10 +37,46 @@
                     <TapGestureRecognizer Tapped="ToggleClicked" Command="{Binding ShowFirstDishesCommand}"/>
                 </component:MenuOptionView.GestureRecognizers>
             </component:MenuOptionView>
-            <BoxView
+            <!--<BoxView
                     HorizontalOptions="FillAndExpand"
                     HeightRequest="2"
-                    BackgroundColor="Black" />
+                    BackgroundColor="Black" />-->
+            <component:MenuOptionView
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="StartAndExpand"
+                   Text="Main Dishes">
+                <component:MenuOptionView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ToggleClicked" Command="{Binding ShowMainDishesCommand}"/>
+                </component:MenuOptionView.GestureRecognizers>
+            </component:MenuOptionView>
+            <!--<BoxView
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="2"
+                    BackgroundColor="Black" />-->
+            <component:MenuOptionView
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="StartAndExpand"
+                   Text="Salads">
+                <component:MenuOptionView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ToggleClicked" Command="{Binding ShowSaladsCommand}"/>
+                </component:MenuOptionView.GestureRecognizers>
+            </component:MenuOptionView>
+            <component:MenuOptionView
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="StartAndExpand"
+                   Text="Desserts">
+                <component:MenuOptionView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ToggleClicked" Command="{Binding ShowDessertsCommand}"/>
+                </component:MenuOptionView.GestureRecognizers>
+            </component:MenuOptionView>
+            <component:MenuOptionView
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="StartAndExpand"
+                   Text="Cocktails">
+                <component:MenuOptionView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ToggleClicked" Command="{Binding ShowCocktailsCommand}"/>
+                </component:MenuOptionView.GestureRecognizers>
+            </component:MenuOptionView>
         </StackLayout>
     </ContentPage.Content>
 </views:MvxContentPage>

@@ -17,15 +17,15 @@ namespace RecipesBook.Core.ViewModels
             _navigationService = navigationService;
 
             ShowFirstDishesCommand = new MvxAsyncCommand(async () => 
-            await _navigationService.Navigate<RecipesViewModel>(ConvertEnumToString(Category.FirstDish)));
+            await _navigationService.Navigate<RecipesViewModel, string>(ConvertEnumToString(Category.FirstDish)));
             ShowMainDishesCommand = new MvxAsyncCommand(async () =>
-            await _navigationService.Navigate<RecipesViewModel>(ConvertEnumToString(Category.MainDish)));
+            await _navigationService.Navigate<RecipesViewModel, string>(ConvertEnumToString(Category.MainDish)));
             ShowSaladsCommand = new MvxAsyncCommand(async () =>
-            await _navigationService.Navigate<RecipesViewModel>(ConvertEnumToString(Category.Salad)));
+            await _navigationService.Navigate<RecipesViewModel, string>(ConvertEnumToString(Category.Salad)));
             ShowDessertsCommand = new MvxAsyncCommand(async () =>
-            await _navigationService.Navigate<RecipesViewModel>(ConvertEnumToString(Category.Dessert)));
+            await _navigationService.Navigate<RecipesViewModel, string>(ConvertEnumToString(Category.Dessert)));
             ShowCocktailsCommand = new MvxAsyncCommand(async () =>
-            await _navigationService.Navigate<RecipesViewModel>(ConvertEnumToString(Category.Cocktail)));
+            await _navigationService.Navigate<RecipesViewModel, string>(ConvertEnumToString(Category.Cocktail)));
         }
 
         public IMvxCommand ShowFirstDishesCommand { get; private set; }

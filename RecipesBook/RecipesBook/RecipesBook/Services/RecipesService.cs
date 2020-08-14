@@ -1,4 +1,5 @@
-﻿using RecipesBook.Core.Interfaces;
+﻿using RecipesBook.Common.Enums;
+using RecipesBook.Core.Interfaces;
 using RecipesBook.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,18 @@ namespace RecipesBook.Core.Services
         public async Task<IEnumerable<Recipe>> GetRecipes()
         {
             var recipes = await _unitOfWork.Recipes.GetAllAsync();
+
+            foreach (var recipe in recipes)
+            {
+                recipe.Ingredients = await _unitOfWork.Ingredients.FindAsync(x => x.RecipeId == recipe.Id);
+            }
+
+            return recipes;
+        }
+
+        public async Task<IEnumerable<Recipe>> GetRecipesByCategory(Category category)
+        {
+            var recipes = await _unitOfWork.Recipes.FindAsync(x => x.Category == category);
 
             foreach (var recipe in recipes)
             {

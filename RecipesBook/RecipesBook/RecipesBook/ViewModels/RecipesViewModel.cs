@@ -4,6 +4,8 @@ using MvvmCross.ViewModels;
 using RecipesBook.Common.Enums;
 using RecipesBook.Core.Interfaces;
 using RecipesBook.Core.Models;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RecipesBook.Core.ViewModels
@@ -12,7 +14,7 @@ namespace RecipesBook.Core.ViewModels
     {
         private readonly IMvxNavigationService _navigationService;
         private readonly IRecipesService _recipesService;
-        private readonly Category category;
+        private string _category;
 
         public RecipesViewModel(IRecipesService recipesService,
             IMvxNavigationService navigationService)
@@ -72,9 +74,25 @@ namespace RecipesBook.Core.ViewModels
         public IMvxCommand RefreshRecipesCommand { get; private set; }
         public IMvxCommand NavigateToCreateRecipePageCommand { get; private set; }
 
+        public override void Prepare(string parameter)
+        {
+            _category = parameter;
+        }
+
         private async Task LoadRecipes()
         {
-            var recipesList = await _recipesService.GetRecipes();
+            IEnumerable<Recipe> recipesList;
+
+            if(_category == null)
+            {
+                recipesList = await _recipesService.GetRecipes();
+            }
+            else
+            {
+                var category = ConverCategoryInEnum(_category);
+                recipesList = await _recipesService.GetRecipesByCategory(category);
+            }
+
             if (recipesList != null)
             {
                 Recipes.Clear();
@@ -99,9 +117,11 @@ namespace RecipesBook.Core.ViewModels
             await _navigationService.Navigate<RecipeViewModel>();
         }
 
-        public override void Prepare(string parameter)
+        private Category ConverCategoryInEnum(string name)
         {
-            
+            var consistentName = name.Replace(" ", "");
+            var category = (Category)Enum.Parse(typeof(Category), consistentName);
+            return category;
         }
     }
 }
